@@ -2,7 +2,11 @@ import json
 import praw
 import pytextrank
 import requests
+import sys
+import time
 import urllib.parse
+
+from praw.exceptions import APIException
 
 import secrets
 
@@ -20,7 +24,6 @@ def main():
     subreddit = reddit.subreddit('news')
     for submission in subreddit.stream.submissions():
         process_submission(submission)
-        break
 
 
 def get_text(article_url):
@@ -91,10 +94,17 @@ def process_submission(submission):
         json.dump({'id': 0, 'text': text}, outfile)
 
     summary = summarize_text(article_file)
-    print('Extracted summary: "{}"'.format(summary))
     comment_text = format_comment(title, summary)
-    print('Submitting comment: "{}" to {}'.format(comment_text, submission.shortlink))
-    submission.reply(comment_text)
+    print('\tSubmitting comment: "{}" to {}'.format(comment_text, submission.shortlink))
+    attempts = 0
+    while attempts <= 3:
+        try:
+            attempts += 1
+            submission.reply(comment_text)
+            break
+        except APIException:
+            print('\t\tWaiting 6 minutes due to ' + sys.exc_info()[0])
+            time.sleep(6 * 60)
 
 
 if __name__ == '__main__':
