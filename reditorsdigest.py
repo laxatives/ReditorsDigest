@@ -2,7 +2,6 @@ import json
 import praw
 import pytextrank
 import requests
-import sys
 import time
 import urllib.parse
 
@@ -22,7 +21,8 @@ def main():
                          username=secrets.username, password=secrets.password)
 
     subreddit = reddit.subreddit('news')
-    for submission in subreddit.stream.submissions():
+    #for submission in subreddit.stream.submissions():
+    for submission in subreddit.hot(limit=25):
         process_submission(submission)
 
 
@@ -102,9 +102,10 @@ def process_submission(submission):
             attempts += 1
             submission.reply(comment_text)
             break
-        except APIException:
-            print('\t\tWaiting 6 minutes due to ' + sys.exc_info()[0])
-            time.sleep(6 * 60)
+        except APIException as e:
+            minutes = 2
+            print('\t\tWaiting {} minutes due to APIException: {}'.format(minutes, e))
+            time.sleep(4 * 60)
 
 
 if __name__ == '__main__':
