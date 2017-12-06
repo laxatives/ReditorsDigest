@@ -103,9 +103,9 @@ def process_submission(submission):
             submission.reply(comment_text)
             break
         except APIException as e:
-            minutes = 2
+            minutes = 4
             print('\t\tWaiting {} minutes due to APIException: {}'.format(minutes, e))
-            time.sleep(4 * 60)
+            time.sleep(minutes * 60)
 
 
 if __name__ == '__main__':
