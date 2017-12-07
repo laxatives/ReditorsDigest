@@ -21,8 +21,8 @@ def main():
                          username=secrets.username, password=secrets.password)
 
     subreddit = reddit.subreddit('news')
-    #for submission in subreddit.stream.submissions():
-    for submission in subreddit.hot(limit=25):
+    for submission in subreddit.stream.submissions():
+    #for submission in subreddit.hot(limit=25):
         process_submission(submission)
 
 
