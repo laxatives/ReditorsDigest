@@ -82,7 +82,8 @@ def summarize_text(input_file):
 
 def format_comment(title, summary):
     return '**' + title + '**\n> ' + summary + \
-           '\n\nPowered by [Diffbot](https://diffbot.com) and [pytextrank](https://github.com/ceteri/pytextrank)'
+           '\n\n[Digest](https://github.com/laxatives/ReditorsDigest) is powered by ' \
+           '[Diffbot](https://diffbot.com) and [pytextrank](https://github.com/ceteri/pytextrank)'
 
 
 def process_submission(submission):
