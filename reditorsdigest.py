@@ -68,7 +68,7 @@ def summarize_text(input_file):
             #print(pytextrank.pretty_print(s._asdict()))
 
     phrases = ", ".join(set([p for p in pytextrank.limit_keyphrases(path_stage2, phrase_limit=12)]))
-    sent_iter = sorted(pytextrank.limit_sentences(path_stage3, word_limit=150), key=lambda x: x[1])
+    sent_iter = sorted(pytextrank.limit_sentences(path_stage3, word_limit=120), key=lambda x: x[1])
     s = []
 
     for sent_text, idx in sent_iter:
